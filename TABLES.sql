@@ -38,8 +38,17 @@ CREATE TABLE IF NOT EXISTS operations (
     `finished` TINYINT(1) NOT NULL DEFAULT 0
 );
 
-INSERT INTO authors(author_id, name, nationality) VALUES('','Juan Rulfo','MEX');
+INSERT INTO authors(author_id, name, nationality) VALUES(NULL,'Juan Rulfo','MEX');
 
 INSERT INTO authors(name, nationality) VALUES('Gabriel Garcia Marquez','COL');
 
-INSERT INTO authors VALUES('', 'Juan Gabriel Vasquez', 'COL');
+INSERT INTO authors VALUES(NULL, 'Juan Gabriel Vasquez', 'COL');
+
+INSERT INTO authors(name, nationality) VALUES
+('Julio Cortazar','ARG'), 
+('Isabel Allende','CHI'),
+('Octavio Paz','MEX'),
+('Juan Carlos Onetti','URU')
+;
+
+INSERT INTO authors(author_id, name) VALUES(16,'Pablo Neruda');
