@@ -52,3 +52,7 @@ INSERT INTO authors(name, nationality) VALUES
 ;
 
 INSERT INTO authors(author_id, name) VALUES(16,'Pablo Neruda');
+
+INSERT INTO `clients`(name, email, birthdate, gender, active) VALUES 
+('Pedro Sanchez','Pedro.78522059J@random.names','1992-01-31','M',0)
+ON DUPLICATE KEY UPDATE active =  VALUES(active)
