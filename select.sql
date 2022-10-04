@@ -107,6 +107,8 @@ SELECT * FROM clients;
 
 
 
+
+
 SELECT name FROM clients
 +-------------------------+
 | name                    |
@@ -213,6 +215,8 @@ SELECT name FROM clients
 | Jose Hidalgo            |
 +-------------------------+
 100 rows in set (0.01 sec)
+
+
 
 
 
@@ -327,6 +331,8 @@ SELECT name, email, gender FROM clients;
 
 
 
+
+
 SELECT name, email, gender FROM clients LIMIT 10;
 +---------------------+--------------------------------------+--------+
 | name                | email                                | gender |
@@ -343,6 +349,10 @@ SELECT name, email, gender FROM clients LIMIT 10;
 | Carmen De la Torre  | Carmen.57408761W@random.names        | F      |
 +---------------------+--------------------------------------+--------+
 10 rows in set (0.00 sec)
+
+
+
+
 
 
 
@@ -400,6 +410,8 @@ SELECT name, email, gender FROM clients WHERE gender = 'M';
 | Jose Hidalgo        | Jose.05903641R@random.names           | M      |
 +---------------------+---------------------------------------+--------+
 48 rows in set (0.01 sec)
+
+
 
 
 
@@ -513,6 +525,8 @@ SELECT year(birthdate) FROM clients;  --- functions
 
 
 
+
+
 SELECT day(birthdate) FROM clients; 
 +----------------+
 | day(birthdate) |
@@ -622,6 +636,8 @@ SELECT day(birthdate) FROM clients;
 
 
 
+
+
 SELECT NOW();
 +---------------------+
 | NOW()               |
@@ -632,6 +648,9 @@ SELECT NOW();
 
 
 
+
+
+
 SELECT YEAR (NOW());
 +--------------+
 | YEAR (NOW()) |
@@ -639,6 +658,7 @@ SELECT YEAR (NOW());
 |         2022 |
 +--------------+
 1 row in set (0.00 sec)
+
 
 
 
@@ -661,6 +681,8 @@ SELECT name, YEAR (NOW()) - YEAR(birthdate) FROM clients LIMIT 10;
 
 
 
+
+
 SELECT * FROM clients WHERE name LIKE '%Saave%';
 +-----------+----------------+------------------------------+------------+--------+--------+---------------------+
 | client_id | name           | email                        | birthdate  | gender | active | created_at          |
@@ -668,6 +690,9 @@ SELECT * FROM clients WHERE name LIKE '%Saave%';
 |         5 | Pablo Saavedra | Pablo.93733268B@random.names | 1960-07-21 | M      |      1 | 2018-04-09 16:51:30 |
 +-----------+----------------+------------------------------+------------+--------+--------+---------------------+
 1 row in set (0.01 sec)
+
+
+
 
 
 
@@ -681,3 +706,258 @@ SELECT name, email, YEAR (NOW()) - YEAR(birthdate), gender
 +-------------------+------------------------------------+--------------------------------+--------+
 2 rows in set (0.01 sec)
 
+
+
+
+
+SELECT count(*) from books;
++----------+
+| count(*) |
++----------+
+|      197 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+SELECT count(*) from authors;
++----------+
+| count(*) |
++----------+
+|      132 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+SELECT * FROM authors WHERE author_id > 0 and author_id <= 5;
++-----------+--------------------+-------------+
+| author_id | name               | nationality |
++-----------+--------------------+-------------+
+|         1 | Sam Altman         | USA         |
+|         2 | Freddy Vega        | COL         |
+|         3 | Arthur Conan Doyle | GBR         |
+|         4 | Chuck Palahniuk    | USA         |
+|         5 | Juan Rulfo         | MEX         |
++-----------+--------------------+-------------+
+5 rows in set (0.01 sec)
+
+
+
+
+SELECT * FROM books WHERE author_id BETWEEN 1 and 5;
++---------+-----------+---------------------------------------+------+----------+-----------+-------+----------+--------+-----------------------------------------------+
+| book_id | author_id | title                                 | year | language | cover_url | price | sellable | copies | description                                   |
++---------+-----------+---------------------------------------+------+----------+-----------+-------+----------+--------+-----------------------------------------------+
+|       1 |         1 | The Startup Playbook                  | 2013 | en       | NULL      | 10.00 |        1 |      5 | Advice from the experts                       |
+|       2 |         1 | The Startup Playbook                  | 2014 | es       | NULL      | 10.00 |        1 |      5 | Consejo de los expertos, traducido por Platzi |
+|       3 |         3 | Estudio en escarlata                  | 1887 | es       | NULL      |  5.00 |        1 |     10 | La primera novela de Sherlock Holmes          |
+|      12 |         5 | El llano en llamas                    | 1953 | es       | NULL      | 10.00 |        0 |      1 | Cuentos mexicanos                             |
+|      41 |         3 | The - Vol I Complete Sherlock Holmes  | 1900 | en       | NULL      |  NULL |        1 |      4 | NULL                                          |
+|      42 |         3 | The - Vol II Complete Sherlock Holmes | 1900 | en       | NULL      |  NULL |        1 |      4 | NULL                                          |
++---------+-----------+---------------------------------------+------+----------+-----------+-------+----------+--------+-----------------------------------------------+
+6 rows in set (0.01 sec)
+
+
+
+
+SELECT book_id, author_id, title FROM books WHERE author_id BETWEEN 1 and 5;
++---------+-----------+---------------------------------------+
+| book_id | author_id | title                                 |
++---------+-----------+---------------------------------------+
+|       1 |         1 | The Startup Playbook                  |
+|       2 |         1 | The Startup Playbook                  |
+|       3 |         3 | Estudio en escarlata                  |
+|      12 |         5 | El llano en llamas                    |
+|      41 |         3 | The - Vol I Complete Sherlock Holmes  |
+|      42 |         3 | The - Vol II Complete Sherlock Holmes |
++---------+-----------+---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+SELECT b.book_id, a.name, b.title 
+FROM books AS b 
+JOIN authors AS a 
+ON a.author_id = b.author_id
+WHERE a.author_id BETWEEN 1 AND 5;
++---------+--------------------+---------------------------------------+
+| book_id | name               | title                                 |
++---------+--------------------+---------------------------------------+
+|       1 | Sam Altman         | The Startup Playbook                  |
+|       2 | Sam Altman         | The Startup Playbook                  |
+|       3 | Arthur Conan Doyle | Estudio en escarlata                  |
+|      12 | Juan Rulfo         | El llano en llamas                    |
+|      41 | Arthur Conan Doyle | The - Vol I Complete Sherlock Holmes  |
+|      42 | Arthur Conan Doyle | The - Vol II Complete Sherlock Holmes |
++---------+--------------------+---------------------------------------+
+6 rows in set (0.01 sec)
+
+
+
+
+
+SELECT b.book_id, a.name, a.author_id, b.title 
+FROM books AS b 
+JOIN authors AS a 
+ON a.author_id = b.author_id
+WHERE a.author_id BETWEEN 1 AND 5;
++---------+--------------------+-----------+---------------------------------------+
+| book_id | name               | author_id | title                                 |
++---------+--------------------+-----------+---------------------------------------+
+|       1 | Sam Altman         |         1 | The Startup Playbook                  |
+|       2 | Sam Altman         |         1 | The Startup Playbook                  |
+|       3 | Arthur Conan Doyle |         3 | Estudio en escarlata                  |
+|      12 | Juan Rulfo         |         5 | El llano en llamas                    |
+|      41 | Arthur Conan Doyle |         3 | The - Vol I Complete Sherlock Holmes  |
+|      42 | Arthur Conan Doyle |         3 | The - Vol II Complete Sherlock Holmes |
++---------+--------------------+-----------+---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+SELECT name FROM authors WHERE author_id = 4;
++-----------------+
+| name            |
++-----------------+
+| Chuck Palahniuk |
++-----------------+
+1 row in set (0.01 sec)
+
+
+
+
+
+DESC transactions;
++----------------+---------------------+------+-----+-------------------+-----------------------------+
+| Field          | Type                | Null | Key | Default           | Extra                       |
++----------------+---------------------+------+-----+-------------------+-----------------------------+
+| transaction_id | int(10) unsigned    | NO   | PRI | NULL              | auto_increment              |
+| book_id        | int(10) unsigned    | NO   |     | NULL              |                             |
+| client_id      | int(10) unsigned    | NO   |     | NULL              |                             |
+| type           | enum('lend','sell') | NO   |     | NULL              |                             |
+| created_at     | timestamp           | NO   |     | CURRENT_TIMESTAMP |                             |
+| modified_at    | timestamp           | NO   |     | CURRENT_TIMESTAMP | on update CURRENT_TIMESTAMP |
+| finished       | tinyint(1)          | NO   |     | 0                 |                             |
++----------------+---------------------+------+-----+-------------------+-----------------------------+
+7 rows in set (0.01 sec)
+
+
+
+
+
+
+SELECT * FROM transactions;
++----------------+---------+-----------+------+---------------------+---------------------+----------+
+| transaction_id | book_id | client_id | type | created_at          | modified_at         | finished |
++----------------+---------+-----------+------+---------------------+---------------------+----------+
+|              1 |      12 |        34 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              2 |      54 |        87 | lend | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        0 |
+|              3 |       3 |        14 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              4 |       1 |        54 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              5 |      12 |        81 | lend | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              6 |      12 |        81 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              7 |      87 |        29 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
++----------------+---------+-----------+------+---------------------+---------------------+----------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+SELECT c.name, b.title, t.type 
+FROM transactions AS T
+JOIN books AS b
+    ON t.book_id = b.book_id
+JOIN clients AS C
+    ON t.client_id = c.client_id;
+    +-----------------------+--------------------------------------+------+
+| name                  | title                                | type |
++-----------------------+--------------------------------------+------+
+| Maria Teresa Castillo | El llano en llamas                   | sell |
+| Luis Saez             | Tales of Mystery and Imagination     | lend |
+| Jose Maria Bermudez   | Estudio en escarlata                 | sell |
+| Rafael Galvez         | The Startup Playbook                 | sell |
+| Antonia Giron         | El llano en llamas                   | lend |
+| Antonia Giron         | El llano en llamas                   | sell |
+| Juana Maria Lopez     | Vol 39 No. 1 Social Choice & Welfare | sell |
++-----------------------+--------------------------------------+------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+SELECT c.name, b.title, t.type 
+FROM transactions AS T
+JOIN books AS b
+    ON t.book_id = b.book_id
+JOIN clients AS c
+    ON t.client_id = c.client_id
+WHERE  c.gender = 'F'
+    AND t.type = 'sell';
++-----------------------+--------------------------------------+------+
+| name                  | title                                | type |
++-----------------------+--------------------------------------+------+
+| Maria Teresa Castillo | El llano en llamas                   | sell |
+| Antonia Giron         | El llano en llamas                   | sell |
+| Juana Maria Lopez     | Vol 39 No. 1 Social Choice & Welfare | sell |
++-----------------------+--------------------------------------+------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+
+SELECT c.name, b.title, a.name, t.type 
+FROM transactions AS t
+JOIN books AS b
+    ON t.book_id = b.book_id
+JOIN clients AS c
+    ON t.client_id = c.client_id
+JOIN authors AS a
+    ON b.author_id = a.author_id
+WHERE c.gender = 'F'
+    AND t.type = 'sell';
+    +-----------------------+--------------------------------------+------------+------+
+| name                  | title                                | name       | type |
++-----------------------+--------------------------------------+------------+------+
+| Maria Teresa Castillo | El llano en llamas                   | Juan Rulfo | sell |
+| Antonia Giron         | El llano en llamas                   | Juan Rulfo | sell |
+| Juana Maria Lopez     | Vol 39 No. 1 Social Choice & Welfare | Various    | sell |
++-----------------------+--------------------------------------+------------+------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+
+SELECT c.name, b.title, a.name, t.type 
+FROM transactions AS t
+JOIN books AS b
+    ON t.book_id = b.book_id
+JOIN clients AS c
+    ON t.client_id = c.client_id
+JOIN authors AS a
+    ON b.author_id = a.author_id
+WHERE c.gender = 'M'
+    AND t.type IN ('sell', 'lend');
+    +---------------------+----------------------------------+--------------------+------+
+| name                | title                            | name               | type |
++---------------------+----------------------------------+--------------------+------+
+| Luis Saez           | Tales of Mystery and Imagination | Edgar Allen Poe    | lend |
+| Jose Maria Bermudez | Estudio en escarlata             | Arthur Conan Doyle | sell |
+| Rafael Galvez       | The Startup Playbook             | Sam Altman         | sell |
++---------------------+----------------------------------+--------------------+------+
+3 rows in set (0.00 sec)

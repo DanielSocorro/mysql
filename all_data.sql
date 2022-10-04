@@ -481,3 +481,13 @@ CREATE TABLE `transactions` (
   `finished` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`transaction_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO transactions (book_id, client_id, type, finished) VALUES
+	(12,34,'sell',1),
+	(54,87,'lend',0),
+	(3,14,'sell',1),
+	(1,54,'sell',1),
+	(12,81,'lend',1),
+	(12,81,'sell',1),
+	(87,29,'sell',1);
