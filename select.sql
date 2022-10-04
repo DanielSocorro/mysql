@@ -961,3 +961,181 @@ WHERE c.gender = 'M'
 | Rafael Galvez       | The Startup Playbook             | Sam Altman         | sell |
 +---------------------+----------------------------------+--------------------+------+
 3 rows in set (0.00 sec)
+
+
+
+
+
+
+SELECT b.title, a.name
+FROM authors AS a, books AS b
+WHERE a.author_id =  b.author_id
+LIMIT 10;
++--------------------------------+--------------------+
+| title                          | name               |
++--------------------------------+--------------------+
+| The Startup Playbook           | Sam Altman         |
+| The Startup Playbook           | Sam Altman         |
+| Estudio en escarlata           | Arthur Conan Doyle |
+| Wallander: Asesinos sin rostro | Henning Mankel     |
+| Wallander: Los perros de Riga  | Henning Mankel     |
+| Wallander: La leona blanca     | Henning Mankel     |
+| Wallander: El hombre sonriente | Henning Mankel     |
+| Wallander: La falsa pista      | Henning Mankel     |
+| Wallander: La quinta mujer     | Henning Mankel     |
+| Wallander: Pisando los talones | Henning Mankel     |
++--------------------------------+--------------------+
+10 rows in set (0.00 sec)
+
+
+
+
+SELECT b.title, a.name
+FROM books AS b
+INNER JOIN authors AS a 
+    ON a.author_id = b.author_id
+LIMIT 10;
++--------------------------------+--------------------+
+| title                          | name               |
++--------------------------------+--------------------+
+| The Startup Playbook           | Sam Altman         |
+| The Startup Playbook           | Sam Altman         |
+| Estudio en escarlata           | Arthur Conan Doyle |
+| Wallander: Asesinos sin rostro | Henning Mankel     |
+| Wallander: Los perros de Riga  | Henning Mankel     |
+| Wallander: La leona blanca     | Henning Mankel     |
+| Wallander: El hombre sonriente | Henning Mankel     |
+| Wallander: La falsa pista      | Henning Mankel     |
+| Wallander: La quinta mujer     | Henning Mankel     |
+| Wallander: Pisando los talones | Henning Mankel     |
++--------------------------------+--------------------+
+10 rows in set (0.00 sec)
+
+
+
+
+SELECT a.author_id, a.name, a.nationality, b.title 
+FROM authors AS a
+JOIN books AS b 
+    ON b.author_id = a.author_id 
+WHERE a.author_id BETWEEN 1 AND 5;
++-----------+--------------------+-------------+---------------------------------------+
+| author_id | name               | nationality | title                                 |
++-----------+--------------------+-------------+---------------------------------------+
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         3 | Arthur Conan Doyle | GBR         | Estudio en escarlata                  |
+|         5 | Juan Rulfo         | MEX         | El llano en llamas                    |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol I Complete Sherlock Holmes  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol II Complete Sherlock Holmes |
++-----------+--------------------+-------------+---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+SELECT a.author_id, a.name, a.nationality, b.title 
+FROM authors AS a
+JOIN books AS b 
+    ON b.author_id = a.author_id 
+WHERE a.author_id BETWEEN 1 AND 5
+ORDER BY a.author_id;
++-----------+--------------------+-------------+---------------------------------------+
+| author_id | name               | nationality | title                                 |
++-----------+--------------------+-------------+---------------------------------------+
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         3 | Arthur Conan Doyle | GBR         | Estudio en escarlata                  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol I Complete Sherlock Holmes  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol II Complete Sherlock Holmes |
+|         5 | Juan Rulfo         | MEX         | El llano en llamas                    |
++-----------+--------------------+-------------+---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+SELECT a.author_id, a.name, a.nationality, b.title 
+FROM authors AS a
+JOIN books AS b 
+    ON b.author_id = a.author_id 
+WHERE a.author_id BETWEEN 1 AND 5
+ORDER BY a.author_id desc;
++-----------+--------------------+-------------+---------------------------------------+
+| author_id | name               | nationality | title                                 |
++-----------+--------------------+-------------+---------------------------------------+
+|         5 | Juan Rulfo         | MEX         | El llano en llamas                    |
+|         3 | Arthur Conan Doyle | GBR         | Estudio en escarlata                  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol I Complete Sherlock Holmes  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol II Complete Sherlock Holmes |
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
++-----------+--------------------+-------------+---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+SELECT a.author_id, a.name, a.nationality, b.title 
+FROM authors AS a
+JOIN books AS b 
+    ON b.author_id = a.author_id 
+WHERE a.author_id BETWEEN 1 AND 5
+ORDER BY a.name desc;
++-----------+--------------------+-------------+---------------------------------------+
+| author_id | name               | nationality | title                                 |
++-----------+--------------------+-------------+---------------------------------------+
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         5 | Juan Rulfo         | MEX         | El llano en llamas                    |
+|         3 | Arthur Conan Doyle | GBR         | Estudio en escarlata                  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol I Complete Sherlock Holmes  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol II Complete Sherlock Holmes |
++-----------+--------------------+-------------+---------------------------------------+
+6 rows in set (0.00 sec)
+
+
+
+
+
+SELECT a.author_id, a.name, a.nationality, b.title 
+FROM authors AS a
+LEFT JOIN books AS b 
+    ON b.author_id = a.author_id 
+WHERE a.author_id BETWEEN 1 AND 5
+ORDER BY a.author_id;
++-----------+--------------------+-------------+---------------------------------------+
+| author_id | name               | nationality | title                                 |
++-----------+--------------------+-------------+---------------------------------------+
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         1 | Sam Altman         | USA         | The Startup Playbook                  |
+|         2 | Freddy Vega        | COL         | NULL                                  |
+|         3 | Arthur Conan Doyle | GBR         | Estudio en escarlata                  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol I Complete Sherlock Holmes  |
+|         3 | Arthur Conan Doyle | GBR         | The - Vol II Complete Sherlock Holmes |
+|         4 | Chuck Palahniuk    | USA         | NULL                                  |
+|         5 | Juan Rulfo         | MEX         | El llano en llamas                    |
++-----------+--------------------+-------------+---------------------------------------+
+8 rows in set (0.01 sec)
+
+
+
+
+SELECT a.author_id, a.name, a.nationality, COUNT(b.book_id)
+FROM authors AS a
+LEFT JOIN books AS b 
+    ON b.author_id = a.author_id 
+WHERE a.author_id BETWEEN 1 AND 5
+GROUP BY a.author_id
+ORDER BY a.author_id;
++-----------+--------------------+-------------+------------------+
+| author_id | name               | nationality | COUNT(b.book_id) |
++-----------+--------------------+-------------+------------------+
+|         1 | Sam Altman         | USA         |                2 |
+|         2 | Freddy Vega        | COL         |                0 |
+|         3 | Arthur Conan Doyle | GBR         |                3 |
+|         4 | Chuck Palahniuk    | USA         |                0 |
+|         5 | Juan Rulfo         | MEX         |                1 |
++-----------+--------------------+-------------+------------------+
+5 rows in set (0.01 sec)
