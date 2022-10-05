@@ -1078,3 +1078,278 @@ LEFT JOIN authors AS a
 +-----------------------+------+--------------------------------------+--------------------+--------------------------+------+
 8 rows in set (0.00 sec)
 
+
+SHOW tables;
++----------------------+
+| Tables_in_platzitest |
++----------------------+
+| authors              |
+| books                |
+| clients              |
+| transactions         |
++----------------------+
+4 rows in set (0.01 sec)
+
+
+
+SELECT * FROM authors
+ORDER BY RAND()
+LIMIT 10;
++-----------+--------------------+-------------+
+| author_id | name               | nationality |
++-----------+--------------------+-------------+
+|       138 | Keith Devlin       | NULL        |
+|        52 | P L Deshpande      | NULL        |
+|       185 | Steig Larsson      | SWE         |
+|         2 | Freddy Vega        | COL         |
+|         1 | Sam Altman         | USA         |
+|        32 | Thomas Cormen      | USA         |
+|        25 | H. G. Wells        | ENG         |
+|       163 | Morris West        | NULL        |
+|       168 | E T Bell           | NULL        |
+|         3 | Arthur Conan Doyle | GBR         |
++-----------+--------------------+-------------+
+10 rows in set (0.01 sec)
+
+
+
+SELECT COUNT(*) FROM authors;
++----------+
+| COUNT(*) |
++----------+
+|      132 |
++----------+
+1 row in set (0.01 sec)
+
+
+
+
+DELETE FROM authors 
+WHERE author_id = 168
+LIMIT 1;
+
+
+SELECT COUNT(*) FROM authors;
++----------+
+| COUNT(*) |
++----------+
+|      131 |
++----------+
+1 row in set (0.00 sec)
+
+
+DESC clients;
++------------+------------------+------+-----+-------------------+----------------+
+| Field      | Type             | Null | Key | Default           | Extra          |
++------------+------------------+------+-----+-------------------+----------------+
+| client_id  | int(10) unsigned | NO   | PRI | NULL              | auto_increment |
+| name       | varchar(50)      | YES  |     | NULL              |                |
+| email      | varchar(100)     | NO   | UNI | NULL              |                |
+| birthdate  | date             | YES  |     | NULL              |                |
+| gender     | enum('M','F')    | YES  |     | NULL              |                |
+| active     | tinyint(1)       | NO   |     | 1                 |                |
+| created_at | timestamp        | NO   |     | CURRENT_TIMESTAMP |                |
++------------+------------------+------+-----+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+
+
+SELECT client_id, name 
+FROM clients 
+WHERE active <> 1;
++------------+------------------+------+-----+-------------------+----------------+
+|            |                  |      |     |                   |                |
++------------+------------------+------+-----+-------------------+----------------+
+Empty set (0.00 sec)
+
+
+
+
+SELECT client_id, name 
+FROM clients 
+ORDER BY RAND() LIMIT 10;
++-----------+----------------------+
+| client_id | name                 |
++-----------+----------------------+
+|        70 | Francisco Alcalde    |
+|        53 | Marina Gabaldon      |
+|        92 | Antonia Beltran      |
+|        63 | Francisco Jose Leon  |
+|        47 | Alberto Cabanas      |
+|        61 | Albert Galvez        |
+|         6 | Marta Carrillo       |
+|        12 | Maria Dolores Larrea |
+|        98 | Rosa Maria Singh     |
+|        21 | Mario Romero         |
++-----------+----------------------+
+10 rows in set (0.00 sec)
+
+
+
+
+
+SELECT client_id, name, active
+FROM clients 
+WHERE client_id IN (77, 18, 66, 37, 57, 91, 79, 69, 84, 63);
++-----------+---------------------+--------+
+| client_id | name                | active |
++-----------+---------------------+--------+
+|        18 | Antonia Aranda      |      1 |
+|        37 | Pablo Gonzalez      |      1 |
+|        57 | Esther Pina         |      1 |
+|        63 | Francisco Jose Leon |      1 |
+|        66 | Ana Maria Martinez  |      1 |
+|        69 | Adrian Vela         |      1 |
+|        77 | Jesus Perez         |      1 |
+|        79 | Esther Capdevila    |      1 |
+|        84 | angel Palomo        |      1 |
+|        91 | Sonia Mari          |      1 |
++-----------+---------------------+--------+
+10 rows in set (0.00 sec)
+
+
+
+UPDATE clients 
+SET active = 0
+WHERE client_id = 84
+LIMIT 1;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+
+SELECT client_id, name, active
+FROM clients 
+WHERE client_id IN (77, 18, 66, 37, 57, 91, 79, 69, 84, 63);
++-----------+---------------------+--------+
+| client_id | name                | active |
++-----------+---------------------+--------+
+|        18 | Antonia Aranda      |      1 |
+|        37 | Pablo Gonzalez      |      1 |
+|        57 | Esther Pina         |      1 |
+|        63 | Francisco Jose Leon |      1 |
+|        66 | Ana Maria Martinez  |      1 |
+|        69 | Adrian Vela         |      1 |
+|        77 | Jesus Perez         |      1 |
+|        79 | Esther Capdevila    |      1 |
+|        84 | angel Palomo        |      0 |
+|        91 | Sonia Mari          |      1 |
++-----------+---------------------+--------+
+10 rows in set (0.00 sec)
+
+
+DESC clients;
++------------+------------------+------+-----+-------------------+----------------+
+| Field      | Type             | Null | Key | Default           | Extra          |
++------------+------------------+------+-----+-------------------+----------------+
+| client_id  | int(10) unsigned | NO   | PRI | NULL              | auto_increment |
+| name       | varchar(50)      | YES  |     | NULL              |                |
+| email      | varchar(100)     | NO   | UNI | NULL              |                |
+| birthdate  | date             | YES  |     | NULL              |                |
+| gender     | enum('M','F')    | YES  |     | NULL              |                |
+| active     | tinyint(1)       | NO   |     | 1                 |                |
+| created_at | timestamp        | NO   |     | CURRENT_TIMESTAMP |                |
++------------+------------------+------+-----+-------------------+----------------+
+7 rows in set (0.00 sec)
+
+
+
+
+SELECT client_id, name, email, active
+FROM clients 
+WHERE client_id IN (77, 18, 66, 37, 57, 91, 79, 69, 84, 63);
++-----------+---------------------+---------------------------------------+--------+
+| client_id | name                | email                                 | active |
++-----------+---------------------+---------------------------------------+--------+
+|        18 | Antonia Aranda      | Antonia.91560262E@random.names        |      1 |
+|        37 | Pablo Gonzalez      | Pablo.11605676Z@random.names          |      1 |
+|        57 | Esther Pina         | Esther.36300729J@random.names         |      1 |
+|        63 | Francisco Jose Leon | Francisco Jose.07598657D@random.names |      1 |
+|        66 | Ana Maria Martinez  | Ana Maria.91340418N@random.names      |      1 |
+|        69 | Adrian Vela         | Adrian.66561884E@random.names         |      1 |
+|        77 | Jesus Perez         | Jesus.91931655B@random.names          |      1 |
+|        79 | Esther Capdevila    | Esther.96440550D@random.names         |      1 |
+|        84 | angel Palomo        | angel.28890315S@random.names          |      0 |
+|        91 | Sonia Mari          | Sonia.06246888L@random.names          |      1 |
++-----------+---------------------+---------------------------------------+--------+
+
+
+
+
+SELECT client_id, name, active
+FROM clients
+WHERE 
+    client_id IN (1,6,8,3,27,90)
+    OR name LIKE '%Lopez%';
++-----------+---------------------+--------+
+| client_id | name                | active |
++-----------+---------------------+--------+
+|         1 | Maria Dolores Gomez |      1 |
+|         3 | Maria Luisa Marin   |      1 |
+|         6 | Marta Carrillo      |      1 |
+|         8 | Milagros Garcia     |      1 |
+|        27 | Josefa Roldan       |      1 |
+|        29 | Juana Maria Lopez   |      1 |
+|        62 | Carmen Lopez        |      1 |
+|        90 | Julio Mayordomo     |      1 |
++-----------+---------------------+--------+
+8 rows in set (0.00 sec)
+
+
+UPDATE clients 
+SET active = 0
+WHERE client_id 
+IN (1,6,8,3,27,90)
+ OR name LIKE '%Lopez%';
+ Query OK, 8 rows affected (0.00 sec)
+Rows matched: 8  Changed: 8  Warnings: 0
+
+
+
+
+SELECT client_id, name, active
+FROM clients
+WHERE 
+    client_id IN (1,6,8,3,27,90)
+    OR name LIKE '%Lopez%';
++-----------+---------------------+--------+
+| client_id | name                | active |
++-----------+---------------------+--------+
+|         1 | Maria Dolores Gomez |      0 |
+|         3 | Maria Luisa Marin   |      0 |
+|         6 | Marta Carrillo      |      0 |
+|         8 | Milagros Garcia     |      0 |
+|        27 | Josefa Roldan       |      0 |
+|        29 | Juana Maria Lopez   |      0 |
+|        62 | Carmen Lopez        |      0 |
+|        90 | Julio Mayordomo     |      0 |
++-----------+---------------------+--------+
+8 rows in set (0.00 sec)
+
+
+
+SELECT * FROM transactions;
++----------------+---------+-----------+------+---------------------+---------------------+----------+
+| transaction_id | book_id | client_id | type | created_at          | modified_at         | finished |
++----------------+---------+-----------+------+---------------------+---------------------+----------+
+|              1 |      12 |        34 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              2 |      54 |        87 | lend | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        0 |
+|              3 |       3 |        14 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              4 |       1 |        54 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              5 |      12 |        81 | lend | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              6 |      12 |        81 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              7 |      87 |        29 | sell | 2022-10-04 14:20:09 | 2022-10-04 14:20:09 |        1 |
+|              8 |       6 |        76 | sell | 2018-01-01 00:00:00 | 2022-10-04 20:42:23 |        0 |
++----------------+---------+-----------+------+---------------------+---------------------+----------+
+8 rows in set (0.00 sec)
+
+
+TRUNCATE transactions;
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+SELECT * FROM transactions;
+Empty set (0.00 sec)
+
