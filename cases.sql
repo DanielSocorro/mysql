@@ -1353,3 +1353,239 @@ Query OK, 0 rows affected (0.01 sec)
 SELECT * FROM transactions;
 Empty set (0.00 sec)
 
+
+
+SELECT DISTINCT nationality 
+FROM authors;
++-------------+
+| nationality |
++-------------+
+| USA         |
+| COL         |
+| GBR         |
+| MEX         |
+| SWE         |
+| RUS         |
+| IND         |
+| JAP         |
+| ESP         |
+| FRA         |
+| AUT         |
+| ENG         |
+| DEU         |
+| NULL        |
+| AUS         |
++-------------+
+15 rows in set (0.00 sec)
+
+
+
+UPDATE authors 
+SET nationality = 'GBR' 
+WHERE nationality = 'ENG';
+Query OK, 10 rows affected (0.01 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+
+
+
+SELECT DISTINCT nationality
+ FROM authors;
++-------------+
+| nationality |
++-------------+
+| USA         |
+| COL         |
+| GBR         |
+| MEX         |
+| SWE         |
+| RUS         |
+| IND         |
+| JAP         |
+| ESP         |
+| FRA         |
+| AUT         |
+| DEU         |
+| NULL        |
+| AUS         |
++-------------+
+14 rows in set (0.01 sec)
+
+
+
+
+
+SELECT COUNT(book_id)
+ FROM books;
++----------------+
+| COUNT(book_id) |
++----------------+
+|            197 |
++----------------+
+1 row in set (0.00 sec)
+
+
+
+
+SELECT COUNT(book_id), SUM(1) FROM books;
++----------------+--------+
+| COUNT(book_id) | SUM(1) |
++----------------+--------+
+|            197 |    197 |
++----------------+--------+
+1 row in set (0.00 sec)
+
+
+
+SELECT SUM(price) 
+FROM books 
+WHERE sellable = 1;
++------------+
+| SUM(price) |
++------------+
+|    4353.00 |
++------------+
+1 row in set (0.00 sec)
+
+
+
+DESC books;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| book_id     | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| author_id   | int(10) unsigned | YES  |     | NULL    |                |
+| title       | varchar(100)     | NO   | MUL | NULL    |                |
+| year        | int(11)          | NO   |     | 1900    |                |
+| language    | varchar(2)       | NO   |     | NULL    |                |
+| cover_url   | varchar(500)     | YES  |     | NULL    |                |
+| price       | double(6,2)      | YES  |     | NULL    |                |
+| sellable    | tinyint(1)       | NO   |     | 0       |                |
+| copies      | int(11)          | NO   |     | 1       |                |
+| description | text             | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+10 rows in set (0.00 sec)
+
+
+
+
+SELECT SUM(price*copies)
+ FROM books 
+ WHERE sellable = 1;
++-------------------+
+| SUM(price*copies) |
++-------------------+
+|          17371.00 |
++-------------------+
+1 row in set (0.00 sec)
+
+
+
+SELECT sellable, 
+SUM(price*copies) 
+FROM books 
+GROUP BY sellable;
++----------+-------------------+
+| sellable | SUM(price*copies) |
++----------+-------------------+
+|        0 |             19.00 |
+|        1 |          17371.00 |
++----------+-------------------+
+2 rows in set (0.01 sec)
+
+
+
+
+SELECT COUNT(book_id), 
+SUM(IF(year < 1950, 1, 0)) AS `<1950``
+FROM books;
++----------------+-------+
+| COUNT(book_id) | <1950 |
++----------------+-------+
+|            197 |   186 |
++----------------+-------+
+1 row in set (0.00 sec)
+
+
+
+
+SELECT COUNT(book_id) 
+FROM books 
+WHERE year < 1950;
++----------------+
+| COUNT(book_id) |
++----------------+
+|            186 |
++----------------+
+1 row in set (0.00 sec)
+
+
+SELECT COUNT(book_id), 
+SUM(IF(year < 1950, 1, 0)) AS `<1950``,  --- only one french quote
+SUM(IF(year < 1950, 0, 1)) AS `>1950``   --- only one french quote
+FROM books;
++----------------+-------+-------+
+| COUNT(book_id) | <1950 | >1950 |
++----------------+-------+-------+
+|            197 |   186 |    11 |
++----------------+-------+-------+
+1 row in set (0.01 sec)
+
+
+
+
+SELECT COUNT(book_id), 
+SUM(IF(year < 1950, 1, 0)) AS `<1950``,         --- only one french quote
+SUM(IF(year >= 1950 AND year <1990, 1, 0)) AS `>1990``,  --- only one french quote
+SUM(IF(year >= 1990 AND year <2000, 1, 0)) AS `>2000``   --- only one french quote
+FROM books;
++----------------+-------+-------+-------+
+| COUNT(book_id) | <1950 | >1990 | >2000 |
++----------------+-------+-------+-------+
+|            197 |   186 |     1 |     8 |
++----------------+-------+-------+-------+
+1 row in set (0.01 sec)
+
+
+
+SELECT COUNT(book_id), 
+SUM(IF(year < 1950, 1, 0)) AS `<1950``,       c
+SUM(IF(year >= 1950 AND year <1990, 1, 0)) AS `>1990``,  --- only one french quote
+SUM(IF(year >= 1990 AND year <2000, 1, 0)) AS `>2000``, --- only one french quote
+SUM(IF(year >= 2000, 1, 0)) AS `<hoy`` --- only one french quote
+FROM books;
++----------------+-------+-------+-------+------+
+| COUNT(book_id) | <1950 | >1990 | >2000 | <hoy |
++----------------+-------+-------+-------+------+
+|            197 |   186 |     1 |     8 |    2 |
++----------------+-------+-------+-------+------+
+1 row in set (0.00 sec)
+
+
+SELECT nationality, COUNT(book_id), 
+SUM(IF(year < 1950, 1, 0)) AS `<1950``,        --- only one french quote
+SUM(IF(year >= 1950 AND year <1990, 1, 0)) AS `>1990``,  --- only one french quote
+SUM(IF(year >= 1990 AND year <2000, 1, 0)) AS `>2000``, --- only one french quote
+SUM(IF(year >= 2000, 1, 0)) AS `<hoy``  --- only one french quote
+FROM books AS b
+JOIN authors AS a
+    ON a.author_id = b.author_id
+WHERE a.nationality IS NOT NULL
+GROUP BY nationality;
++-------------+----------------+-------+-------+-------+------+
+| nationality | COUNT(book_id) | <1950 | >1990 | >2000 | <hoy |
++-------------+----------------+-------+-------+-------+------+
+| AUS         |              2 |     2 |     0 |     0 |    0 |
+| AUT         |              4 |     4 |     0 |     0 |    0 |
+| DEU         |              1 |     1 |     0 |     0 |    0 |
+| ESP         |              1 |     1 |     0 |     0 |    0 |
+| FRA         |              3 |     3 |     0 |     0 |    0 |
+| GBR         |             19 |    19 |     0 |     0 |    0 |
+| IND         |              8 |     8 |     0 |     0 |    0 |
+| JAP         |              1 |     1 |     0 |     0 |    0 |
+| MEX         |              1 |     0 |     1 |     0 |    0 |
+| RUS         |              9 |     9 |     0 |     0 |    0 |
+| SWE         |             11 |     3 |     0 |     8 |    0 |
+| USA         |             36 |    34 |     0 |     0 |    2 |
++-------------+----------------+-------+-------+-------+------+
+12 rows in set (0.01 sec)
