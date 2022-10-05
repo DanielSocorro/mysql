@@ -1589,3 +1589,109 @@ GROUP BY nationality;
 | USA         |             36 |    34 |     0 |     0 |    2 |
 +-------------+----------------+-------+-------+-------+------+
 12 rows in set (0.01 sec)
+
+
+
+DESC authors;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| author_id   | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(100)     | NO   | UNI | NULL    |                |
+| nationality | varchar(100)     | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+ALTER TABLE authors ADD COLUMN birthyear INTEGER DEFAULT 1930 AFTER name;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+
+DESC authors;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| author_id   | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(100)     | NO   | UNI | NULL    |                |
+| birthyear   | int(11)          | YES  |     | 1930    |                |
+| nationality | varchar(100)     | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+
+
+ALTER TABLE authors 
+MODIFY COLUMN birthyear
+year DEFAULT 1920;
+Query OK, 131 rows affected (0.04 sec)
+Records: 131  Duplicates: 0  Warnings: 0
+
+
+
+
+DESC authors;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| author_id   | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(100)     | NO   | UNI | NULL    |                |
+| birthyear   | year(4)          | YES  |     | 1920    |                |
+| nationality | varchar(100)     | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+
+
+ALTER TABLE authors 
+DROP COLUMN birthyear;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+
+DESC authors;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| author_id   | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(100)     | NO   | UNI | NULL    |                |
+| nationality | varchar(100)     | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+SHOW TABLES;
++----------------------+
+| Tables_in_platzitest |
++----------------------+
+| authors              |
+| books                |
+| clients              |
+| transactions         |
++----------------------+
+4 rows in set (0.00 sec)
+
+
+
+
+SHOW TABLES LIKE '%i%';
++----------------------------+
+| Tables_in_platzitest (%i%) |
++----------------------------+
+| clients                    |
+| transactions               |
++----------------------------+
+2 rows in set (0.00 sec)
+
+
+mysqldump -u root -p;
+
+
